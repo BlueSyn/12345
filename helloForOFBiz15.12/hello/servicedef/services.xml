@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright (c) 2001-2005 The Open For Business Project - www.ofbiz.org
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a
+ *  copy of this software and associated documentation files (the "Software"),
+ *  to deal in the Software without restriction, including without limitation
+ *  the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ *  and/or sell copies of the Software, and to permit persons to whom the
+ *  Software is furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included
+ *  in all copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ *  OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ *  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ *  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT
+ *  OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+ *  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ */
+-->
+
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:noNamespaceSchemaLocation="http://www.ofbiz.org/dtds/services.xsd">
+    <description>Hello Services</description>
+
+    <!-- this will be implemented in Java -->
+    <service name="createHelloPerson" engine="java"
+        location="org.ofbiz.hello.HelloServices" invoke="createHelloPerson">
+        <description>Create a HelloPerson</description>
+        <auto-attributes mode="IN" entity-name="HelloPerson" include="nonpk" optional="true"/>
+        <attribute name="helloPersonId" mode="OUT" type="String" optional="false"/>
+    </service>
+
+    <!-- this will be implemented in OFBiz minilang -->
+    <service name="createHelloPersonHobby" engine="simple"
+        location="org/ofbiz/hello/HelloServices.xml" invoke="createHelloPersonHobby">
+        <description>Create a HelloPersonHobby which links a person and a hobby</description>
+        <auto-attributes mode="IN" entity-name="HelloPersonHobby" include="pk" optional="false"/>
+    </service>
+    
+    <service name="deletePersonHobby" engine="java"
+        location="org.ofbiz.hello.HelloServices" invoke="deletePersonHobby">
+        <description>Create a HelloPersonHobby which links a person and a hobby</description>
+        <auto-attributes mode="IN" entity-name="HelloPersonHobby" include="pk" optional="false"/>
+        <attribute name="helloPersonId" mode="OUT" type="String" optional="false"/>
+    </service>
+    
+    <!-- Party view services -->
+    <service name="findHelloPartySimple" engine="java"
+        location="org.ofbiz.hello.HelloServices" invoke="findPartySimple">
+        <description>General Party Find Service, Used in the findparty page in the Party Manager, etc</description>
+        <attribute name="extInfo" type="String" mode="IN" optional="true"/>
+        <attribute name="roleTypeId" type="String" mode="IN" optional="true"/> <!-- can be null or ANY to include any -->
+        <attribute name="VIEW_INDEX" type="String" mode="IN" optional="true"/>
+        <attribute name="VIEW_SIZE" type="String" mode="IN" optional="true"/>
+        <attribute name="lookupFlag" type="String" mode="IN" optional="true"/>
+        <attribute name="showAll" type="String" mode="IN" optional="true"/>
+        <attribute name="partyId" type="String" mode="IN" optional="true"/> <!-- does a LIKE compare on this, can do partial, case insensitive, etc -->
+        <attribute name="userLoginId" type="String" mode="IN" optional="true"/> <!-- does a LIKE compare on this, can do partial, case insensitive, etc -->
+        <attribute name="groupName" type="String" mode="IN" optional="true"/>
+        <attribute name="firstName" type="String" mode="IN" optional="true"/>
+        <attribute name="lastName" type="String" mode="IN" optional="true"/>
+        
+        <attribute name="roleTypes" type="List" mode="OUT" optional="false"/>
+        <attribute name="currentRole" type="org.ofbiz.entity.GenericValue" mode="OUT" optional="true"/>
+        <attribute name="viewIndex" type="Integer" mode="OUT" optional="false"/>
+        <attribute name="viewSize" type="Integer" mode="OUT" optional="false"/>
+        <attribute name="partyList" type="List" mode="OUT" optional="false"/>
+        <attribute name="partyListSize" type="Integer" mode="OUT" optional="false"/>
+        <attribute name="paramList" type="String" mode="OUT" optional="false"/>
+        <attribute name="highIndex" type="Integer" mode="OUT" optional="false"/>
+        <attribute name="lowIndex" type="Integer" mode="OUT" optional="false"/>
+    </service>
+
+</services>

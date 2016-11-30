@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+ *  Copyright (c) 2003-2005 The Open For Business Project - www.ofbiz.org
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a 
+ *  copy of this software and associated documentation files (the "Software"), 
+ *  to deal in the Software without restriction, including without limitation 
+ *  the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ *  and/or sell copies of the Software, and to permit persons to whom the 
+ *  Software is furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included 
+ *  in all copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+ *  OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+ *  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+ *  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY 
+ *  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT 
+ *  OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR 
+ *  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ *@author     Si Chen (sichen@opensourcestrategies.com)
+ *
+-->
+
+<site-conf xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:noNamespaceSchemaLocation="http://www.ofbiz.org/dtds/site-conf.xsd">
+    <include location="component://common/webcommon/WEB-INF/common-controller.xml"/>
+    <include location="component://common/webcommon/WEB-INF/security-controller.xml"/>
+    <include location="component://commonext/webapp/WEB-INF/controller.xml"/>
+    <include location="component://content/webapp/content/WEB-INF/controller.xml"/>
+    <description>Second Hello World Site Configuration File</description>
+    <owner>Open For Business Project (c) 2005 </owner>
+    <errorpage>/error/error.jsp</errorpage>
+
+
+
+    <preprocessor>
+        <!-- Events to run on every request before security (chains exempt) -->
+        <!-- <event type="java" path="org.ofbiz.webapp.event.TestEvent" invoke="test"/> -->
+    </preprocessor>
+    <postprocessor>
+        <!-- Events to run on every request after all other processing (chains exempt) -->
+        <!-- <event type="java" path="org.ofbiz.webapp.event.TestEvent" invoke="test"/> -->
+    </postprocessor>
+
+    <!-- Request Mappings -->
+    <request-map uri="main">
+    	<security https="false" auth="false"/>
+        <response name="success" type="view" value="main"/>
+    </request-map>
+    <request-map uri="news">
+        <response name="success" type="view" value="news"/>
+    </request-map>
+    <request-map uri="weather">
+        <response name="success" type="view" value="weather"/>
+    </request-map>
+    <request-map uri="sports">
+        <response name="success" type="view" value="sports"/>
+    </request-map>
+    <request-map uri="horoscope">
+        <response name="success" type="view" value="horoscope"/>
+    </request-map>
+    <request-map uri="people">
+        <response name="success" type="view" value="people"/>
+    </request-map>
+    <request-map uri="peopleNav">
+        <response name="success" type="view" value="peopleNav"/>
+    </request-map>
+    <request-map uri="guestbook">
+        <response name="success" type="view" value="guestbook"/>
+    </request-map>
+    <request-map uri="hobbies">
+        <response name="success" type="view" value="hobbies"/>
+    </request-map>
+    
+    <!-- these requests correspond to POSTs of forms and call services to do their work.
+        OFBiz automatically parses form fields to service inputs.
+        User can be re-directed to other requests or views after the service is called.
+        The re-direct can depend on if the service succeeded or failed. -->
+    <request-map uri="createPerson">
+        <event type="service" invoke="createHelloPerson"/>
+        <response name="success" type="view" value="guestbook"/>
+        <response name="error" type="view" value="guestbook"/>
+    </request-map>
+    <request-map uri="createPersonHobby">
+        <event type="service" invoke="createHelloPersonHobby"/>
+        <response name="success" type="view" value="hobbies"/>
+        <response name="error" type="view" value="hobbies"/>
+    </request-map>
+    <request-map uri="deletePersonHobby">
+        <event type="service" invoke="deletePersonHobby"/>
+        <response name="success" type="view" value="hobbies"/>
+        <response name="error" type="view" value="hobbies"/>
+    </request-map>
+    <request-map uri="findPartySimple">
+    	<security https="false" auth="false"/>
+    	<response name="success" type="view" value="findPartySimple"/>
+    </request-map>
+    <!-- end of request mappings -->
+
+    <!-- View Mappings -->
+    <view-map name="error" type="jsp" page="/error/error.jsp"/>
+    <view-map name="main" type="screen" page="component://hello/widget/HelloScreens.xml#main"/>
+    <view-map name="news" type="screen" page="component://hello/widget/HelloScreens.xml#news"/>
+    <view-map name="weather" type="screen" page="component://hello/widget/HelloScreens.xml#weather"/>
+    <view-map name="sports" type="screen" page="component://hello/widget/HelloScreens.xml#sports"/>
+    <view-map name="horoscope" type="screen" page="component://hello/widget/HelloScreens.xml#horoscope"/>
+    <view-map name="people" type="screen" page="component://hello/widget/HelloScreens.xml#people"/>
+    <view-map name="peopleNav" type="screen" page="component://hello/widget/HelloScreens.xml#peopleNav"/>
+    <view-map name="guestbook" type="screen" page="component://hello/widget/HelloScreens.xml#guestbook"/>
+    <view-map name="hobbies" type="screen" page="component://hello/widget/HelloScreens.xml#hobbies"/>
+    <view-map name="findPartySimple" type="screen" page="component://hello/widget/HelloScreens.xml#findPartySimple"/>
+    <!-- end of view mappings -->
+</site-conf>

@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ *  Copyright (c) 2003-2005 The Open For Business Project - www.ofbiz.org
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a 
+ *  copy of this software and associated documentation files (the "Software"), 
+ *  to deal in the Software without restriction, including without limitation 
+ *  the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ *  and/or sell copies of the Software, and to permit persons to whom the 
+ *  Software is furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included 
+ *  in all copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+ *  OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+ *  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+ *  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY 
+ *  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT 
+ *  OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR 
+ *  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ *
+-->
+<screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:noNamespaceSchemaLocation="http://www.ofbiz.org/dtds/widget-screen.xsd">
+   <screen name="CommonDecorator">
+       <section>
+       		<actions>
+                <!-- base/top/specific map first, then more common map added for shared labels --> 
+                <property-map resource="EcommerceUiLabels" map-name="uiLabelMap" global="true"/>  <!-- many checkout pages use these -->
+                <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="PartyUiLabels" map-name="uiLabelMap" global="true"/>
+                
+                <set field="layoutSettings.styleSheets[+0]" value="/images/maincss.css" global="true"/>
+            </actions>
+            <widgets>
+                <platform-specific>
+                	<html><html-template location="component://hello/webapp/hello/includes/header.ftl"/></html>
+                </platform-specific>
+                <decorator-section-include name="body"/>
+                <platform-specific>
+                	<html><html-template location="component://hello/webapp/hello/includes/footer.ftl"/></html>
+                </platform-specific>
+            </widgets>
+       </section>
+    </screen>
+    <screen name="main">
+        <section>
+         	<widgets>
+                <decorator-screen name="CommonDecorator">
+                    <decorator-section name="body">
+                       <platform-specific>
+                       	  <html><html-template location="component://hello/webapp/hello/main.ftl"/></html>
+                       </platform-specific>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="news">
+        <section>
+         	<widgets>
+                <decorator-screen name="CommonDecorator">
+                    <decorator-section name="body">
+                        <platform-specific>
+                        	<html><html-template location="component://hello/webapp/hello/news.ftl"/></html>
+                        </platform-specific>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="weather">
+        <section>
+         	<widgets>
+                <decorator-screen name="CommonDecorator">
+                    <decorator-section name="body">
+                        <platform-specific>
+                        	<html><html-template location="component://hello/webapp/hello/weather.ftl"/></html>
+                        </platform-specific>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="sports">
+        <section>
+         	<widgets>
+                <decorator-screen name="CommonDecorator">
+                    <decorator-section name="body">
+                        <platform-specific>
+                        	<html><html-template location="component://hello/webapp/hello/sports.ftl"/></html>
+                        </platform-specific>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="horoscope">
+        <section>
+         	<widgets>
+                <decorator-screen name="CommonDecorator">
+                    <decorator-section name="body">
+                        <platform-specific>
+                        	<html><html-template location="component://hello/webapp/hello/horoscope.ftl"/></html>
+                        </platform-specific>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="people">
+        <section>
+            <actions>
+            	<script location="component://hello/webapp/hello/WEB-INF/actions/people.bsh"/>
+            </actions>
+         	<widgets>
+                <decorator-screen name="CommonDecorator">
+                    <decorator-section name="body">
+                        <platform-specific>
+                        	<html><html-template location="component://hello/webapp/hello/people.ftl"/></html>
+                        </platform-specific>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="peopleNav">
+        <section>
+            <actions>
+            	<script location="component://hello/webapp/hello/WEB-INF/actions/peopleNav.bsh"/>
+            </actions>
+         	<widgets>
+                <decorator-screen name="CommonDecorator">
+                    <decorator-section name="body">
+                        <platform-specific>
+                        	<html><html-template location="component://hello/webapp/hello/peopleNav.ftl"/></html>
+                        </platform-specific>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="guestbook">
+        <section>
+            <actions>
+                <!-- find HelloPerson by condition.  since there is no conditions, all values of HelloPerson are returned in allGuests -->
+            	<entity-condition entity-name="HelloPerson" list-name="allGuests">
+            		<order-by field-name="helloPersonId"/>
+            	</entity-condition>
+            </actions>
+         	<widgets>
+                <decorator-screen name="CommonDecorator">
+                    <decorator-section name="body">
+                        <label>Our Guests and what they've had to say:</label>  <!-- a label/header -->
+                         <!-- use this form directly, instead of going through a Freemarker template again -->
+                         <include-form name="GuestbookList" location="component://hello/webapp/hello/guestbook/GuestbookForms.xml"/>
+                        <label>Add another guest</label>
+                         <include-form name="AddGuest" location="component://hello/webapp/hello/guestbook/GuestbookForms.xml"/>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="hobbies">
+        <section>
+            <actions>
+                <!-- set the value of helloPersonId on the forms to the parameter "helloPersonId" -->
+                <set field="helloPersonId" from-field="parameters.helloPersonId"/>
+                <!-- find HelloPersonHobby for helloPersonId, equivalent to a delegator.findByAnd(...) -->
+            	<entity-and entity-name="HelloPersonHobby" list-name="allHobbies">
+            	     <field-map env-name="helloPersonId"/>
+            		 <order-by field-name="helloHobbyId"/>
+            	</entity-and>
+            	<!-- find HelloPerson from helloPersonId, equivalent to a delegator.findByPrimaryKey(...) -->
+            	<entity-one entity-name="HelloPerson" value-name="person">
+            		<field-map env-name="helloPersonId"/>
+            	</entity-one>
+            </actions>
+         	<widgets>
+                <decorator-screen name="CommonDecorator">
+                    <decorator-section name="body">
+                        <label>Hobbies for ${person.firstName} ${person.lastName}</label>
+                         <include-form name="HobbiesList" location="component://hello/webapp/hello/guestbook/GuestbookForms.xml"/>
+                        <label>Add a hobby for ${person.firstName} ${person.lastName}</label>
+                         <include-form name="AddHobby" location="component://hello/webapp/hello/guestbook/GuestbookForms.xml"/>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    
+    <!-- Party Find Screen -->
+    <screen name="findPartySimple">
+        <section>
+            <actions>
+                <set field="titleProperty" value="PageTitleFindParty"/>
+                <set field="headerItem" value="find"/>
+                <set field="tabButtonItem" value="findparty"/>
+				<set field="layoutSettings.styleSheets[]" value="/partymgr/static/partymgr.css" global="true"/>
+                <service service-name="findHelloPartySimple" auto-field-map="parameters"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="CommonDecorator">
+                    <decorator-section name="body">
+                        <section>
+                            <widgets>
+                                <platform-specific>
+                                    <html><html-template location="component://hello/webapp/hello/example/findPartySimple.ftl"/></html>
+                                </platform-specific>
+                            </widgets>
+                        </section>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+ 
+</screens>

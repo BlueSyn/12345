@@ -1,0 +1,58 @@
+/*
+*  Copyright (c) 2003-2005 The Open For Business Project - www.ofbiz.org
+*
+*  Permission is hereby granted, free of charge, to any person obtaining a 
+*  copy of this software and associated documentation files (the "Software"), 
+*  to deal in the Software without restriction, including without limitation 
+*  the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+*  and/or sell copies of the Software, and to permit persons to whom the 
+*  Software is furnished to do so, subject to the following conditions:
+*
+*  The above copyright notice and this permission notice shall be included 
+*  in all copies or substantial portions of the Software.
+*
+*  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+*  OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+*  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+*  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY 
+*  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT 
+*  OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR 
+*  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*
+*
+*/
+import org.ofbiz.base.util.*;
+import org.ofbiz.entity.*;
+import org.ofbiz.entity.condition.*;
+import org.ofbiz.commons.db.*;
+import javolution.util.FastList;
+
+
+//生成查询条件
+//********list of conditions
+List conditions = FastList.newInstance();
+//conditions.add(LookupUtil.makeExpr("lastName", "B",true));  //true表示like
+//conditions.add(LookupUtil.makeExpr("firstName", "Demo")); //精确匹配
+//********create the main condition
+EntityCondition cond = null;
+if (conditions.size() > 0 ) {
+    cond = new EntityConditionList(conditions, EntityOperator.AND);
+}
+//--查询条件
+
+//sorting by order date newest first
+List orderBy = UtilMisc.toList("-lastUpdatedStamp", "-partyId");
+
+PaginationUtil pageUtil = new PaginationUtil(delegator,request);
+pageUtil.setEntityName("Person");
+//pageUtil.setCond(cond);
+pageUtil.setOrderBy(orderBy);
+pageUtil.doQuery();
+
+
+context.put("resultList", pageUtil.getResultList());
+context.put("viewIndex", pageUtil.getViewIndex());
+context.put("viewSize", pageUtil.getViewSize());
+context.put("lowIndex", pageUtil.getLowIndex());
+context.put("highIndex", pageUtil.getHighIndex());
+context.put("listSize", pageUtil.getListSize());

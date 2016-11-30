@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright (c) 2001-2005 The Open For Business Project - www.ofbiz.org
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a
+ *  copy of this software and associated documentation files (the "Software"),
+ *  to deal in the Software without restriction, including without limitation
+ *  the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ *  and/or sell copies of the Software, and to permit persons to whom the
+ *  Software is furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included
+ *  in all copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ *  OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ *  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ *  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT
+ *  OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+ *  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ */
+-->
+
+<entitymodel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:noNamespaceSchemaLocation="http://www.ofbiz.org/dtds/entitymodel.xsd">
+    <title>Entity of an Open For Business Project Component</title>
+
+  <!-- ========================================================= -->
+  <!-- org.ofbiz.hello -->
+  <!-- ========================================================= -->
+
+    <entity entity-name="HelloPerson"
+            package-name="org.ofbiz.hello"
+            title="Entity for storing data about persons">
+      <field name="helloPersonId" type="id-ne"></field>
+      <field name="firstName" type="id"></field>
+      <field name="middleName" type="id"></field>
+      <field name="lastName" type="id"></field>
+      <field name="comments" type="comment"></field>
+      <prim-key field="helloPersonId"/>
+    </entity>
+    <entity entity-name="HelloHobby"
+            package-name="org.ofbiz.hello"
+            title="Hobbies available">
+      <field name="helloHobbyId" type="id-ne"></field>
+      <field name="description" type="description"></field>
+      <prim-key field="helloHobbyId"/>
+    </entity>
+    <entity entity-name="HelloPersonHobby"
+            package-name="org.ofbiz.hello"
+            title="Entity and attribute Entity">
+      <field name="helloPersonId" type="id-ne"></field>
+      <field name="helloHobbyId" type="id-ne"></field>
+      <prim-key field="helloPersonId"/>
+      <prim-key field="helloHobbyId"/>
+      <relation type="one" fk-name="HPRSN_PRSN" rel-entity-name="HelloPerson">
+        <key-map field-name="helloPersonId"/>
+      </relation>
+      <relation type="one" fk-name="HPRSN_HBBY" rel-entity-name="HelloHobby">
+        <key-map field-name="helloHobbyId"/>
+      </relation>
+    </entity>
+</entitymodel>
+
